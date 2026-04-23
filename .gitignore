@@ -1,43 +1,69 @@
 ```
 # Dependencies
-vendor/
+node_modules/
 
-# Logs and temp files
-*.log
-*.tmp
+# Build artifacts
+dist/
+build/
 
 # Environment
 .env
 .env.local
 *.env.*
 
-# Editor/IDE
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+.MF
+tags
+TAGS
+id.py
+.DS_Store
+Thumbs.db
+
+# Compiled and binary files
+*.class
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.out
+
+# Editors
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS
-.DS_Store
-Thumbs.db
+# Logs
+*.log
 
-# Build artifacts
-dist/
-build/
-*.o
-*.obj
-*.out
+# Temp files
+*.tmp
 
-# PHP specific
-*.php~
-**/vendor/**/*
-!.gitignore
-
-# Coverage reports
+# Coverage
 coverage/
 htmlcov/
-.coverage
-
-# Testing
-.phpunit.result.cache
 ```

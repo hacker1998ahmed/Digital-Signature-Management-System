@@ -1,91 +1,20 @@
 {
-  "name": "digital-signature-factory",
+  "name": "digital-signature-factory-desktop",
   "version": "2.0.0",
-  "description": "Digital Signature Factory - Complete Electronic Signature Management System for Egyptian and Gulf Government Portals",
-  "main": "electron/main.js",
-  "author": "Digital Signature Factory Team",
+  "description": "Digital Signature Factory - Desktop Application for Egyptian and Gulf Government Portals",
+  "main": "main.js",
+  "author": "DSF Team <info@dsf-egypt.com>",
   "license": "MIT",
   "scripts": {
     "start": "electron .",
-    "dev": "concurrently \"npm run react-dev\" \"wait-on http://localhost:3000 && electron .\"",
-    "react-dev": "cd frontend && npm start",
+    "dev": "electron . --enable-logging",
     "build": "electron-builder",
     "build:win": "electron-builder --win",
     "build:mac": "electron-builder --mac",
     "build:linux": "electron-builder --linux",
+    "build:all": "electron-builder -wml",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
-  },
-  "build": {
-    "appId": "com.digitalsignaturefactory.app",
-    "productName": "Digital Signature Factory",
-    "directories": {
-      "output": "dist",
-      "buildResources": "build"
-    },
-    "files": [
-      "electron/**/*",
-      "frontend/build/**/*",
-      "src/**/*",
-      "config/**/*",
-      "node_modules/**/*",
-      "package.json"
-    ],
-    "extraResources": [
-      {
-        "from": "vendor",
-        "to": "vendor"
-      }
-    ],
-    "win": {
-      "target": ["nsis", "portable"],
-      "icon": "build/icon.ico",
-      "requestedExecutionLevel": "requireAdministrator",
-      "artifactName": "${productName}-${version}-setup.${ext}"
-    },
-    "mac": {
-      "target": ["dmg", "zip"],
-      "icon": "build/icon.icns",
-      "category": "public.app-category.business",
-      "hardenedRuntime": true,
-      "gatekeeperAssess": false,
-      "entitlements": "build/entitlements.mac.plist",
-      "entitlementsInherit": "build/entitlements.mac.plist"
-    },
-    "linux": {
-      "target": ["AppImage", "deb", "rpm"],
-      "icon": "build/icons",
-      "category": "Office",
-      "desktop": {
-        "Name": "Digital Signature Factory",
-        "Comment": "Electronic Signature Management System",
-        "Categories": "Office;Business;"
-      }
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "include": "build/installer.nsh",
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "shortcutName": "Digital Signature Factory"
-    },
-    "dmg": {
-      "title": "${productName} ${version}",
-      "contents": [
-        {
-          "x": 130,
-          "y": 220
-        },
-        {
-          "x": 410,
-          "y": 220,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    }
   },
   "dependencies": {
     "electron-store": "^8.1.0",
@@ -93,9 +22,67 @@
     "node-fetch": "^2.7.0"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
     "electron": "^28.0.0",
-    "electron-builder": "^24.9.1",
-    "wait-on": "^7.2.0"
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.dsf.desktop",
+    "productName": "Digital Signature Factory",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "package.json",
+      "../frontend/build/**/*"
+    ],
+    "extraMetadata": {
+      "main": "main.js"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "${productName}-${version}-Setup.${ext}"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "build/icon.icns",
+      "category": "public.app-category.business",
+      "artifactName": "${productName}-${version}.${ext}"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build/icon.png",
+      "category": "Office",
+      "artifactName": "${productName}-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Digital Signature Factory"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "dsf-team",
+      "repo": "digital-signature-factory"
+    }
   }
 }

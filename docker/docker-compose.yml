@@ -1,0 +1,115 @@
+# Digital Signature Factory - Docker Compose
+# مصنع التوقيع الرقمي - تكوين Docker
+
+version: '3.8'
+
+services:
+  # تطبيق PHP الرئيسي
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: dsfactory_app
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+      - "8443:443"
+    volumes:
+      - ../src:/var/www/html/src
+      - ../config:/var/www/html/config
+      - ../public:/var/www/html/public
+      - ../storage:/var/www/html/storage
+      - ./tokens:/var/www/html/tokens
+      - dsfactory_logs:/var/log/dsfactory
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=dsfactory
+      - DB_USER=dsfactory
+      - DB_PASSWORD=dsfactory_secret_2026
+      - ENCRYPTION_KEY=base64:random_encryption_key_here
+      - APP_ENV=production
+      - APP_DEBUG=false
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - dsfactory_network
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+
+  # قاعدة البيانات MySQL
+  db:
+    image: mysql:8.0
+    container_name: dsfactory_db
+    restart: unless-stopped
+    volumes:
+      - dsfactory_data:/var/lib/mysql
+      - ../config/database.sql:/docker-entrypoint-initdb.d/01_init.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_secret_2026
+      - MYSQL_DATABASE=dsfactory
+      - MYSQL_USER=dsfactory
+      - MYSQL_PASSWORD=dsfactory_secret_2026
+    ports:
+      - "3306:3306"
+    networks:
+      - dsfactory_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # واجهة React Frontend
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: dsfactory_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - app
+    networks:
+      - dsfactory_network
+
+  # Redis للتخزين المؤقت
+  redis:
+    image: redis:7-alpine
+    container_name: dsfactory_redis
+    restart: unless-stopped
+    volumes:
+      - dsfactory_redis:/data
+    networks:
+      - dsfactory_network
+
+  # Nginx Reverse Proxy (اختياري)
+  nginx:
+    image: nginx:alpine
+    container_name: dsfactory_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - app
+      - frontend
+    networks:
+      - dsfactory_network
+
+volumes:
+  dsfactory_data:
+    driver: local
+  dsfactory_logs:
+    driver: local
+  dsfactory_redis:
+    driver: local
+
+networks:
+  dsfactory_network:
+    driver: bridge

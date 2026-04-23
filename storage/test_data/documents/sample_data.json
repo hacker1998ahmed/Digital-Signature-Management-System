@@ -1,0 +1,29 @@
+{
+    "documentType": "invoice",
+    "documentId": "JSON-2024-001",
+    "issueDate": "2024-01-15T10:30:00Z",
+    "supplier": {
+        "name": "Test Company Ltd.",
+        "taxId": "123-456-789",
+        "address": "Cairo, Egypt"
+    },
+    "customer": {
+        "name": "Customer Corp.",
+        "taxId": "987-654-321"
+    },
+    "items": [
+        {
+            "description": "Product A",
+            "quantity": 10,
+            "unitPrice": 100.00,
+            "taxRate": 0.14,
+            "totalAmount": 1140.00
+        }
+    ],
+    "totals": {
+        "subtotal": 1000.00,
+        "tax": 140.00,
+        "total": 1140.00,
+        "currency": "EGP"
+    }
+}

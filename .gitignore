@@ -1,67 +1,14 @@
 ```
-# Dependencies
-node_modules/
+# Certificates and private keys
+*.crt
+*.pfx
+*.key
+*.csr
 
-# Editors
-.vscode/
+# Database files
+*.sql
 
-# Environment
-.env
-.env.local
-*.env.*
-
-# Build artifacts
-dist/
-build/
-target/
-
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Logs
-*.log
-
-# Temp files
-*.tmp
-*.swp
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# MyPy
-.mypy_cache/
-
-# PyTest
-.pytest_cache/
-
-# Gradle
-.gradle/
-
-# Java
-*.class
-*.jar
-*.war
-*.ear
-
-# C/C++
-*.o
-*.obj
-*.a
-*.so
-*.dll
-*.exe
-*.out
-
-# Compressed files
+# Compressed/archive files
 *.zip
 *.gz
 *.tar

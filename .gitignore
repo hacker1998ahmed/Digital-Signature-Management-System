@@ -1,0 +1,43 @@
+```
+# Dependencies
+vendor/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.o
+*.obj
+*.out
+
+# PHP specific
+*.php~
+**/vendor/**/*
+!.gitignore
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# Testing
+.phpunit.result.cache
+```
